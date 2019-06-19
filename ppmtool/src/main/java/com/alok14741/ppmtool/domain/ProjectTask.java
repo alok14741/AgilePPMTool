@@ -1,5 +1,8 @@
 package com.alok14741.ppmtool.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
@@ -17,13 +20,20 @@ public class ProjectTask {
     private String acceptanceCriteria;
     private String status;
     private Integer priority;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dueDate;
 
+    //ManyToOne BackLog
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "backlog_id", updatable = false, nullable = false)
+    @JsonIgnore
+    private Backlog backlog;
     //Many to One with BackLog
     @Column(updatable = false)
     private String projectIdentifier;
-
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date created_At;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date updated_At;
 
 
@@ -136,5 +146,13 @@ public class ProjectTask {
                 ", created_At=" + created_At +
                 ", updated_At=" + updated_At +
                 '}';
+    }
+
+    public Backlog getBacklog() {
+        return backlog;
+    }
+
+    public void setBacklog(Backlog backlog) {
+        this.backlog = backlog;
     }
 }
