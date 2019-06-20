@@ -1,5 +1,10 @@
 import axios from "axios";
-import { GET_ERRORS, GET_BACKLOG } from "./types";
+import {
+  GET_ERRORS,
+  GET_BACKLOG,
+  GET_PROJECT_TASK,
+  DELETE_PROJECT_TASK
+} from "./types";
 
 export const addProjectTask = (
   backlog_id,
@@ -42,5 +47,53 @@ export const getBacklog = backlog_id => async dispatch => {
       type: GET_BACKLOG,
       payload: res.data
     });
-  } catch (error) {}
+  } catch (error) {
+    const errorMessage = (() => {
+      if (error.response) {
+        return error.response.data;
+      } else if (error.request) {
+        return error.request;
+      } else {
+        return error.message;
+      }
+    })();
+    dispatch({
+      type: GET_ERRORS,
+      payload: errorMessage
+    });
+  }
+};
+
+export const getProjectTask = (
+  backlog_id,
+  pt_id,
+  history
+) => async dispatch => {
+  try {
+    const res = await axios.get(
+      `http://localhost:8080/api/backlog/${backlog_id}/${pt_id}`
+    );
+    dispatch({
+      type: GET_PROJECT_TASK,
+      payload: res.data
+    });
+  } catch (error) {
+    history.push("/dashboard");
+  }
+};
+
+export const deleteProjectTask = (backlog_id, pt_id) => async dispatch => {
+  if (
+    window.confirm(
+      `You are deleting project task ${pt_id} which cannot be undone.`
+    )
+  ) {
+    await axios.delete(
+      `http://localhost:8080/api/backlog/${backlog_id}/${pt_id}`
+    );
+    dispatch({
+      type: DELETE_PROJECT_TASK,
+      payload: pt_id
+    });
+  }
 };
