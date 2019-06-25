@@ -1,7 +1,6 @@
 package com.alok14741.ppmtool.services;
 
 import com.alok14741.ppmtool.domain.Backlog;
-import com.alok14741.ppmtool.domain.Project;
 import com.alok14741.ppmtool.domain.ProjectTask;
 import com.alok14741.ppmtool.exceptions.ProjectNotFoundException;
 import com.alok14741.ppmtool.repositories.BacklogRepository;
