@@ -42,8 +42,10 @@ class Header extends Component {
         <ul className="navbar-nav ml-auto">
           <li className="nav-item">
             <Link className="nav-link " to="/dashboard">
-              <i className="fa fa-user-circle-o" aria-hidden="true" />
-              {user.fullName}
+              <i className="fa fa-user-circle-o" aria-hidden="true">
+                {" "}
+                {user.fullName}{" "}
+              </i>
             </Link>
           </li>
           <li className="nav-item">
